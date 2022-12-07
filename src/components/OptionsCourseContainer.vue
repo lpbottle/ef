@@ -107,19 +107,4 @@ defineProps({
 .ets-chl-course-level-first-group {
     margin-left: 0;
 }
-
-.ets-chl-options-notify-container {
-    display: block;
-    padding-left: 18px;
-    border-bottom: 1px transparent solid;
-}
-
-.ets-chl-options-notify {
-    display: block;
-    padding: 7px 0 7px 2px;
-}
-
-.ets-chl-options-notify:hover {
-    background-color: #454B53;
-}
 </style>

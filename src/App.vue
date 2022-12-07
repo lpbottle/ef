@@ -1,6 +1,15 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import OptionsCourseContainer from './components/OptionsCourseContainer.vue'
+
+// 是否显示级别菜单
+let showOptions = ref(false)
+
+// 显示/隐藏级别菜单
+function changeLevel() {
+    showOptions.value = !showOptions.value
+}
 
 const orderCourse = {
         name: '普通英语',
@@ -209,7 +218,7 @@ const orderCourse = {
         <div class="ets-change-level-container">
             <div class="ets-chl-nav-container">
                 <div class="ets-chl-nav">
-                    <span class="ets-chl-current-level">
+                    <span class="ets-chl-current-level" @click="changeLevel">
                         <span class="ets-chl-current-level-course">普通英语:</span>
                         <span class="ets-chl-current-level-name">1-入门级</span>
                         <span class="ets-chl-btn"></span>
@@ -218,25 +227,27 @@ const orderCourse = {
             </div>
             
             <!-- 选项 -->
-            <div class="ets-chl-options-container ets-chl-options-container-hidden">
-                <div class="ets-chl-options">
-                    <!-- 普通英语 -->
-                    <OptionsCourseContainer :course-name="orderCourse.name" :course-list="orderCourse.list">
-                        <li class="ets-chl-options-notify-container">
-                            <span class="ets-chl-options-notify">更多阶段</span>
-                        </li>
-                    </OptionsCourseContainer>
+            <Transition name="options">
+                <div class="ets-chl-options-container ets-chl-options-container-hidden" v-show="showOptions">
+                    <div class="ets-chl-options">
+                        <!-- 普通英语 -->
+                        <OptionsCourseContainer :course-name="orderCourse.name" :course-list="orderCourse.list">
+                            <li class="ets-chl-options-notify-container">
+                                <span class="ets-chl-options-notify">更多阶段</span>
+                            </li>
+                        </OptionsCourseContainer>
 
-                    <!-- 旅游英语 -->
-                    <OptionsCourseContainer :course-name="tripCourse.name" :course-list="tripCourse.list" />
+                        <!-- 旅游英语 -->
+                        <OptionsCourseContainer :course-name="tripCourse.name" :course-list="tripCourse.list" />
 
-                    <!-- 商务英语 -->
-                    <OptionsCourseContainer :course-name="businessCourse.name" :course-list="businessCourse.list" />
+                        <!-- 商务英语 -->
+                        <OptionsCourseContainer :course-name="businessCourse.name" :course-list="businessCourse.list" />
 
-                    <!-- 行业英语 -->
-                    <OptionsCourseContainer :course-name="industryCourse.name" :course-list="industryCourse.list" :grade="2" />
+                        <!-- 行业英语 -->
+                        <OptionsCourseContainer :course-name="industryCourse.name" :course-list="industryCourse.list" :grade="2" />
+                    </div>
                 </div>
-            </div>
+            </Transition>
         </div>
 
         <!-- 其它 -->
@@ -307,6 +318,7 @@ const orderCourse = {
 .ets-chl-options-container {
     width: 100%;
     height: auto;
+    max-height: 650px;
     background: #b4bbc6 url("./assets/images/ets-ui-change-level-container-pattern.png");
     position: relative;
     top: -50px;
@@ -317,7 +329,7 @@ const orderCourse = {
     width: 907px;
     margin: 0 auto;
     position: relative;
-    overflow: hidden;
+    overflow: hidden;                
 }
 
 .ets-none {
@@ -334,6 +346,38 @@ const orderCourse = {
     white-space: normal;
     color: #FFF;
 }
+
+.ets-chl-options-notify-container {
+    display: block;
+    padding-left: 18px;
+    border-bottom: 1px transparent solid;
+}
+
+.ets-chl-options-notify {
+    display: block;
+    padding: 7px 0 7px 2px;
+}
+
+.ets-chl-options-notify:hover {
+    background-color: #454B53;
+}
+
+.options-enter-from,
+.options-leave-to {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.options-enter-active,
+.options-leave-active {
+    transition: all 0.5s ease-in-out;
+}
+
+.options-enter-to {
+    overflow: auto;
+}
+
 
 nav {
     width: 100%;
